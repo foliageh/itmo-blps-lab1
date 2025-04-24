@@ -1,34 +1,30 @@
 package com.delivery.dto.response;
 
 import com.delivery.model.Order;
-import lombok.Data;
+import lombok.Value;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Data
-public class OrderResponse {
-    private Long id;
-    private String customerEmail;
-    private List<Long> orderItemIds;
-    private Order.OrderStatus status;
-    private LocalDateTime createdAt;
-    private LocalDateTime completedAt;
-    private Long storeId;
-    private Long courierId;
+@Value
+public class OrderResponse implements EntityApiResponse<Order> {
+    Long id;
+    String customerEmail;
+    List<Long> orderItemIds;
+    Order.OrderStatus status;
+    LocalDateTime createdAt;
+    LocalDateTime completedAt;
+    Long storeId;
+    Long courierId;
 
-    public static OrderResponse fromOrder(Order order) {
-        OrderResponse response = new OrderResponse();
-        response.setId(order.getId());
-        response.setCustomerEmail(order.getCustomerEmail());
-        response.setOrderItemIds(order.getOrderItemIds());
-        response.setStatus(order.getStatus());
-        response.setCreatedAt(order.getCreatedAt());
-        response.setCompletedAt(order.getCompletedAt());
-        response.setStoreId(order.getStore().getId());
-        if (order.getCourier() != null) {
-            response.setCourierId(order.getCourier().getId());
-        }
-        return response;
+    public OrderResponse(Order order) {
+        id = order.getId();
+        customerEmail = order.getCustomerEmail();
+        orderItemIds = order.getOrderItemIds();
+        status = order.getStatus();
+        createdAt = order.getCreatedAt();
+        completedAt = order.getCompletedAt();
+        storeId = order.getStore().getId();
+        courierId = order.getCourier() != null ? order.getCourier().getId() : null;
     }
 }

@@ -22,10 +22,11 @@ public class CustomerController {
     @Operation(summary = "Create a new order")
     @PostMapping("/orders")
     public OrderResponse createOrder(@Valid @RequestBody CreateOrderRequest request) {
-        return OrderResponse.fromOrder(orderService.createOrder(
-            request.getCustomerEmail(),
-            request.getOrderItemIds(),
-            request.getStoreId()
-        ));
+        var order = orderService.createOrder(
+                request.getCustomerEmail(),
+                request.getOrderItemIds(),
+                request.getStoreId()
+        );
+        return new OrderResponse(order);
     }
 }

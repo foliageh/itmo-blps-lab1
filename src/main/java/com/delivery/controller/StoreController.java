@@ -1,16 +1,15 @@
 package com.delivery.controller;
 
 import com.delivery.dto.response.OrderResponse;
+import com.delivery.dto.response.PagedResponse;
 import com.delivery.dto.response.StoreResponse;
+import com.delivery.model.Order;
 import com.delivery.service.StoreService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/store")
@@ -25,7 +24,7 @@ public class StoreController {
     @GetMapping("/profile")
     public StoreResponse getProfile() {
         var store = storeService.getProfile();
-        return StoreResponse.fromStore(store);
+        return new StoreResponse(store);
     }
 
     @Operation(summary = "Get store's order by ID",
@@ -33,23 +32,24 @@ public class StoreController {
     @GetMapping("/orders/{orderId}")
     public OrderResponse getOrder(@PathVariable Long orderId) {
         var order = storeService.getOrder(orderId);
-        return OrderResponse.fromOrder(order);
+        return new OrderResponse(order);
     }
 
     @Operation(summary = "Get store's orders",
-            description = "Retrieve all orders associated with the authenticated store")
+            description = "Retrieve orders associated with the authenticated store")
     @GetMapping("/orders")
-    public List<OrderResponse> getOrders() {
-        return storeService.getOrders().stream()
-            .map(OrderResponse::fromOrder)
-            .collect(Collectors.toList());
+    public PagedResponse<Order> getOrders(
+            @RequestParam(defaultValue = "0") int pageNumber,
+            @RequestParam(defaultValue = "20") int pageSize) {
+        var ordersPage = storeService.getOrders(pageNumber, pageSize);
+        return new PagedResponse<>(ordersPage, OrderResponse::new);
     }
 
     @Operation(summary = "Mark order as collected")
     @PostMapping("/orders/{orderId}/collect")
     public OrderResponse collectOrder(@PathVariable Long orderId) {
         var order = storeService.collectOrder(orderId);
-        return OrderResponse.fromOrder(order);
+        return new OrderResponse(order);
     }
 
     @Operation(summary = "Cancel an order",
@@ -57,6 +57,6 @@ public class StoreController {
     @PostMapping("/orders/{orderId}/cancel")
     public OrderResponse cancelOrder(@PathVariable Long orderId) {
         var order = storeService.cancelOrder(orderId);
-        return OrderResponse.fromOrder(order);
+        return new OrderResponse(order);
     }
 }

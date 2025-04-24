@@ -2,15 +2,14 @@ package com.delivery.controller;
 
 import com.delivery.dto.response.CourierResponse;
 import com.delivery.dto.response.OrderResponse;
+import com.delivery.dto.response.PagedResponse;
+import com.delivery.model.Order;
 import com.delivery.service.CourierService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/courier")
@@ -25,7 +24,7 @@ public class CourierController {
     @GetMapping("/profile")
     public CourierResponse getProfile() {
         var courier = courierService.getProfile();
-        return CourierResponse.fromCourier(courier);
+        return new CourierResponse(courier);
     }
 
     @Operation(summary = "Get courier's order by ID",
@@ -33,16 +32,17 @@ public class CourierController {
     @GetMapping("/orders/{orderId}")
     public OrderResponse getOrder(@PathVariable Long orderId) {
         var order = courierService.getOrder(orderId);
-        return OrderResponse.fromOrder(order);
+        return new OrderResponse(order);
     }
 
     @Operation(summary = "Get courier's orders",
-            description = "Retrieve all orders assigned to the authenticated courier")
+            description = "Retrieve orders assigned to the authenticated courier")
     @GetMapping("/orders")
-    public List<OrderResponse> getOrders() {
-        return courierService.getOrders().stream()
-            .map(OrderResponse::fromOrder)
-            .collect(Collectors.toList());
+    public PagedResponse<Order> getOrders(
+            @RequestParam(defaultValue = "0") int pageNumber,
+            @RequestParam(defaultValue = "20") int pageSize) {
+        var ordersPage = courierService.getOrders(pageNumber, pageSize);
+        return new PagedResponse<>(ordersPage, OrderResponse::new);
     }
 
     @Operation(summary = "Set courier status to ready", 
@@ -50,7 +50,7 @@ public class CourierController {
     @GetMapping("/ready")
     public CourierResponse makeCourierReady() {
         var courier = courierService.makeCourierReady();
-        return CourierResponse.fromCourier(courier);
+        return new CourierResponse(courier);
     }
 
     @Operation(summary = "Mark order as delivered", 
@@ -58,6 +58,6 @@ public class CourierController {
     @PostMapping("/orders/{orderId}/deliver")
     public OrderResponse deliverOrder(@PathVariable Long orderId) {
         var order = courierService.deliverOrder(orderId);
-        return OrderResponse.fromOrder(order);
+        return new OrderResponse(order);
     }
 }

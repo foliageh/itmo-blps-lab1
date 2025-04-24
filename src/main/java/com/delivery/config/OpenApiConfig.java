@@ -26,6 +26,6 @@ public class OpenApiConfig {
             .info(new Info()
                 .title("Delivery Service API")
                 .description("API for managing deliveries by stores and couriers")
-                .version("1.0"));
+                .version("0.2"));
     }
 }

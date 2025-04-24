@@ -1,27 +1,23 @@
 package com.delivery.dto.response;
 
 import com.delivery.model.Courier;
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Value;
 
 import java.time.LocalDateTime;
 
-@Data
-@AllArgsConstructor
-public class CourierResponse {
-    private Long id;
-    private String email;
-    private String name;
-    private Courier.CourierStatus status;
-    private LocalDateTime lastAssignment;
+@Value
+public class CourierResponse implements EntityApiResponse<Courier> {
+    Long id;
+    String email;
+    String name;
+    Courier.CourierStatus status;
+    LocalDateTime lastAssignment;
 
-    public static CourierResponse fromCourier(Courier courier) {
-        return new CourierResponse(
-                courier.getId(),
-                courier.getEmail(),
-                courier.getName(),
-                courier.getStatus(),
-                courier.getLastAssignment()
-        );
+    public CourierResponse(Courier courier) {
+        id = courier.getId();
+        email = courier.getEmail();
+        name = courier.getName();
+        status = courier.getStatus();
+        lastAssignment = courier.getLastAssignment();
     }
 }

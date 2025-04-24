@@ -8,12 +8,13 @@ import com.delivery.repository.OrderRepository;
 import com.delivery.security.SecurityService;
 import com.delivery.security.UserRole;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -32,9 +33,9 @@ public class CourierService {
         return getOrderWithCourierAccess(orderId, courier);
     }
 
-    public List<Order> getOrders() {
+    public Page<Order> getOrders(int pageNumber, int pageSize) {
         var courier = (Courier) securityService.getCurrentUser(UserRole.COURIER);
-        return orderRepository.findByCourier(courier);
+        return orderRepository.findByCourier(courier, PageRequest.of(pageNumber, pageSize));
     }
 
     public Order deliverOrder(Long orderId) {

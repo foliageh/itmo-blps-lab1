@@ -7,12 +7,13 @@ import com.delivery.repository.OrderRepository;
 import com.delivery.security.SecurityService;
 import com.delivery.security.UserRole;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -30,9 +31,9 @@ public class StoreService {
         return getOrderWithStoreAccess(orderId, store);
     }
 
-    public List<Order> getOrders() {
+    public Page<Order> getOrders(int pageNumber, int pageSize) {
         var store = (Store) securityService.getCurrentUser(UserRole.STORE);
-        return orderRepository.findByStore(store);
+        return orderRepository.findByStore(store, PageRequest.of(pageNumber, pageSize));
     }
 
     public Order collectOrder(Long orderId) {

@@ -1,0 +1,468 @@
+type: collection.insomnia.rest/5.0
+name: Delivery Service API 0.2
+meta:
+  id: wrk_8251e7bdc7ca439290cf6c71f7f3e09c
+  created: 1745491039601
+  modified: 1745491039601
+collection:
+  - name: Courier
+    meta:
+      id: fld_e8daf98e16674439b9f7bdef85e33d42
+      created: 1745491061385
+      modified: 1745491859083
+      sortKey: -1745491061385
+      description: Courier operations for managing deliveries
+    children:
+      - url: "{{ _.base_url }}/api/courier/orders/{{ _.orderId }}/deliver"
+        name: Mark order as delivered
+        meta:
+          id: req_6e01467797604ee188dd1ebde55a161a
+          created: 1745491061399
+          modified: 1745491061399
+          isPrivate: false
+          description: Complete the delivery of a specific order
+          sortKey: -1745491061399
+        method: POST
+        authentication:
+          type: bearer
+          token: "{{ _.bearerToken }}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/api/courier/ready"
+        name: Set courier status to ready
+        meta:
+          id: req_7794f9aa356e40a0a903a7596d2da3b1
+          created: 1745491061407
+          modified: 1745491061407
+          isPrivate: false
+          description: Update the authenticated courier's status to ready for accepting
+            deliveries
+          sortKey: -1745491061407
+        method: GET
+        authentication:
+          type: bearer
+          token: "{{ _.bearerToken }}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/api/courier/profile"
+        name: Get courier's profile
+        meta:
+          id: req_3fd65a58a82f42b3ba32473ca97afa55
+          created: 1745491061408
+          modified: 1745491756911
+          isPrivate: false
+          description: Retrieve the authenticated courier's profile information
+          sortKey: -1745491061510
+        method: GET
+        authentication:
+          type: bearer
+          token: "{{ _.bearerToken }}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/api/courier/orders"
+        name: Get courier's orders
+        meta:
+          id: req_9f5c856679f540e69d0a0234f8459bc2
+          created: 1745491061409
+          modified: 1745491061409
+          isPrivate: false
+          description: Retrieve orders assigned to the authenticated courier
+          sortKey: -1745491061409
+        method: GET
+        parameters:
+          - name: pageNumber
+            disabled: true
+            value: "0"
+          - name: pageSize
+            disabled: true
+            value: "20"
+        authentication:
+          type: bearer
+          token: "{{ _.bearerToken }}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/api/courier/orders/{{ _.orderId }}"
+        name: Get courier's order by ID
+        meta:
+          id: req_44b63f736e5548cf92251dee5c41d7c8
+          created: 1745491061410
+          modified: 1745491061410
+          isPrivate: false
+          description: Retrieve a specific order assigned to the authenticated courier by
+            its ID
+          sortKey: -1745491061410
+        method: GET
+        authentication:
+          type: bearer
+          token: "{{ _.bearerToken }}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+    environment:
+      orderId: 1
+    environmentPropertyOrder:
+      "&":
+        - orderId
+  - name: Store
+    meta:
+      id: fld_2cbc4a3aeef341bb94b982e2f4eabf42
+      created: 1745491061392
+      modified: 1745491850650
+      sortKey: -1745491061392
+      description: Store operations for managing orders
+    children:
+      - url: "{{ _.base_url }}/api/store/orders/{{ _.orderId }}/collect"
+        name: Mark order as collected
+        meta:
+          id: req_a03e65bcd4a54a7bae0918d6d3bc3d7e
+          created: 1745491061395
+          modified: 1745491753097
+          isPrivate: false
+          sortKey: -1745491061400.5
+        method: POST
+        authentication:
+          type: bearer
+          token: "{% response 'body', 'req_5a0b2ba3886f43e08d1751f62e646463',
+            'b64::JC50b2tlbg==::46b', 'always', 60 %}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/api/store/orders/{{ _.orderId }}/cancel"
+        name: Cancel an order
+        meta:
+          id: req_7f73452749f14d8d9522b44eacb105a1
+          created: 1745491061396
+          modified: 1745491513344
+          isPrivate: false
+          description: Cancel a specific order that hasn't been collected yet
+          sortKey: -1745491061396
+        method: POST
+        authentication:
+          type: bearer
+          token: "{% response 'body', 'req_5a0b2ba3886f43e08d1751f62e646463',
+            'b64::JC50b2tlbg==::46b', 'always', 60 %}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/api/store/profile"
+        name: Get store's profile
+        meta:
+          id: req_7296e412e1d64cd1b583f5700bfbc21c
+          created: 1745491061404
+          modified: 1745491747381
+          isPrivate: false
+          description: Retrieve the authenticated store's profile information
+          sortKey: -1745491061506
+        method: GET
+        authentication:
+          type: bearer
+          token: "{% response 'body', 'req_5a0b2ba3886f43e08d1751f62e646463',
+            'b64::JC50b2tlbg==::46b', 'always', 60 %}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/api/store/orders"
+        name: Get store's orders
+        meta:
+          id: req_f3fd95b45458454ca5e94b6eb8a62d27
+          created: 1745491061405
+          modified: 1745491507032
+          isPrivate: false
+          description: Retrieve orders associated with the authenticated store
+          sortKey: -1745491061405
+        method: GET
+        parameters:
+          - name: pageNumber
+            disabled: true
+            value: "0"
+          - name: pageSize
+            disabled: true
+            value: "20"
+        authentication:
+          type: bearer
+          token: "{% response 'body', 'req_5a0b2ba3886f43e08d1751f62e646463',
+            'b64::JC50b2tlbg==::46b', 'always', 60 %}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/api/store/orders/{{ _.orderId }}"
+        name: Get store's order by ID
+        meta:
+          id: req_8fc583f9528448c08b8ba8c54072f9e0
+          created: 1745491061406
+          modified: 1745491825809
+          isPrivate: false
+          description: Retrieve a specific order associated with the store by its ID
+          sortKey: -1745491061406
+        method: GET
+        authentication:
+          type: bearer
+          token: "{% response 'body', 'req_5a0b2ba3886f43e08d1751f62e646463',
+            'b64::JC50b2tlbg==::46b', 'always', 60 %}"
+          disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+    environment:
+      orderId: 1
+    environmentPropertyOrder:
+      "&":
+        - orderId
+  - name: Authentication
+    meta:
+      id: fld_3292c32b31e049a28d780acb3d6f7c09
+      created: 1745491061393
+      modified: 1745491061393
+      sortKey: -1745491061393
+      description: Authentication endpoints for stores and couriers
+    children:
+      - url: "{{ _.base_url }}/api/auth/store/register"
+        name: Register a new store
+        meta:
+          id: req_38abf24d9dc84567a836cf988173f29a
+          created: 1745491061400
+          modified: 1745491681887
+          isPrivate: false
+          sortKey: -1745491061503
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"name": "Ziaomi Store",
+            	"email": "store@a.a",
+            	"password": "123456"
+            }
+        headers:
+          - name: Content-Type
+            disabled: false
+            value: application/json
+        authentication:
+          type: bearer
+          disabled: true
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/api/auth/store/login"
+        name: Login as a store
+        meta:
+          id: req_5a0b2ba3886f43e08d1751f62e646463
+          created: 1745491061401
+          modified: 1745491717250
+          isPrivate: false
+          sortKey: -1745491061478
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"email": "store@a.a",
+            	"password": "123456"
+            }
+        headers:
+          - name: Content-Type
+            disabled: false
+            value: application/json
+        authentication:
+          type: bearer
+          disabled: true
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/api/auth/courier/register"
+        name: Register a new courier
+        meta:
+          id: req_a6dc35cf5371467bbaaf15e720ade589
+          created: 1745491061402
+          modified: 1745491710262
+          isPrivate: false
+          sortKey: -1745491061453
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"email": "courier123@a.a",
+            	"name": "Ashot Guy",
+            	"password": "somepassword"
+            }
+        headers:
+          - name: Content-Type
+            disabled: false
+            value: application/json
+        authentication:
+          type: bearer
+          disabled: true
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/api/auth/courier/login"
+        name: Login as a courier
+        meta:
+          id: req_75f0c2d749ed43a5a3145e0f906cf5ef
+          created: 1745491061403
+          modified: 1745491721786
+          isPrivate: false
+          sortKey: -1745491061403
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"email": "courier@a.a",
+            	"password": "123456"
+            }
+        headers:
+          - name: Content-Type
+            disabled: false
+            value: application/json
+        authentication:
+          type: bearer
+          disabled: true
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: Customer
+    meta:
+      id: fld_cd51216c0c0c4d799cd6ee5430f1cd53
+      created: 1745491061394
+      modified: 1745491061394
+      sortKey: -1745491061394
+      description: Customer operations for creating orders
+    children:
+      - url: "{{ _.base_url }}/api/customer/orders"
+        name: Create a new order
+        meta:
+          id: req_e2c9c111b1ac4331b544c69db71c5393
+          created: 1745491061398
+          modified: 1745491738659
+          isPrivate: false
+          sortKey: -1745491061398
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"customerEmail": "customer@a.a",
+            	"orderItemIds": [
+            		1,
+            		2,
+            		3
+            	],
+            	"storeId": 1
+            }
+        headers:
+          - name: Content-Type
+            disabled: false
+            value: application/json
+        authentication:
+          type: bearer
+          disabled: true
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+cookieJar:
+  name: Default Jar
+  meta:
+    id: jar_ed929cb4a5893aa3ea3064e6163261d4011ecff2
+    created: 1745491039608
+    modified: 1745491039608
+environments:
+  name: Base Environment
+  meta:
+    id: env_ed929cb4a5893aa3ea3064e6163261d4011ecff2
+    created: 1745491039605
+    modified: 1745491061382
+    isPrivate: false
+  data:
+    base_url: "{{ _.scheme }}://{{ _.host }}{{ _.base_path }}"
+  subEnvironments:
+    - name: OpenAPI env localhost:8080
+      meta:
+        id: env_5a112c5ab1e3458a9bd9f2e928bca64f
+        created: 1745491061383
+        modified: 1745491137789
+        isPrivate: false
+        sortKey: 1745491061383
+      data:
+        scheme: http
+        host: localhost:8080
