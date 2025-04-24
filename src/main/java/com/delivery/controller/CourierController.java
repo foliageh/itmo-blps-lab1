@@ -20,8 +20,24 @@ import java.util.stream.Collectors;
 public class CourierController {
     private final CourierService courierService;
 
-    @Operation(summary = "Get courier's orders", 
-               description = "Retrieve all orders assigned to the authenticated courier")
+    @Operation(summary = "Get courier's profile",
+            description = "Retrieve the authenticated courier's profile information")
+    @GetMapping("/profile")
+    public CourierResponse getProfile() {
+        var courier = courierService.getProfile();
+        return CourierResponse.fromCourier(courier);
+    }
+
+    @Operation(summary = "Get courier's order by ID",
+            description = "Retrieve a specific order assigned to the authenticated courier by its ID")
+    @GetMapping("/orders/{orderId}")
+    public OrderResponse getOrder(@PathVariable Long orderId) {
+        var order = courierService.getOrder(orderId);
+        return OrderResponse.fromOrder(order);
+    }
+
+    @Operation(summary = "Get courier's orders",
+            description = "Retrieve all orders assigned to the authenticated courier")
     @GetMapping("/orders")
     public List<OrderResponse> getOrders() {
         return courierService.getOrders().stream()
@@ -30,16 +46,18 @@ public class CourierController {
     }
 
     @Operation(summary = "Set courier status to ready", 
-               description = "Update the authenticated courier's status to ready for accepting deliveries")
+            description = "Update the authenticated courier's status to ready for accepting deliveries")
     @GetMapping("/ready")
     public CourierResponse makeCourierReady() {
-        return CourierResponse.fromCourier(courierService.makeCourierReady());
+        var courier = courierService.makeCourierReady();
+        return CourierResponse.fromCourier(courier);
     }
 
     @Operation(summary = "Mark order as delivered", 
-               description = "Complete the delivery of a specific order")
+            description = "Complete the delivery of a specific order")
     @PostMapping("/orders/{orderId}/deliver")
     public OrderResponse deliverOrder(@PathVariable Long orderId) {
-        return OrderResponse.fromOrder(courierService.deliverOrder(orderId));
+        var order = courierService.deliverOrder(orderId);
+        return OrderResponse.fromOrder(order);
     }
 }

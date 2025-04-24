@@ -40,10 +40,12 @@ public class SecurityConfig {
                     return corsConfiguration;
                 }))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/**").permitAll()
-                        .requestMatchers("/api/customer/**").permitAll()
-                        .requestMatchers("/swagger-ui/**", "/swagger-resources/*", "/v3/api-docs/**", "/v3/api-docs.yaml").permitAll()
-                        .anyRequest().authenticated())
+                        .requestMatchers("/api/store/**").authenticated()
+                        .requestMatchers("/api/courier/**").authenticated()
+                        .anyRequest().permitAll())
+                        //.requestMatchers("/api/auth/**").permitAll()
+                        //.requestMatchers("/api/customer/**").permitAll()
+                        //.requestMatchers("/swagger-ui/**", "/swagger-resources/*", "/v3/api-docs/**", "/v3/api-docs.yaml").permitAll()
                 .sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider())
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);

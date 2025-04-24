@@ -14,6 +14,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
@@ -25,13 +26,12 @@ public class AuthService {
     private final JwtTokenProvider tokenProvider;
     private final AuthenticationManager authenticationManager;
 
-    @Transactional
+    @Transactional(isolation = Isolation.REPEATABLE_READ)
     public Store registerStore(String email, String name, String password) {
-        if (storeRepository.findByEmail(email).isPresent()) {
+        if (storeRepository.findByEmail(email).isPresent())
             throw new ApiException("Email already registered as a store", HttpStatus.BAD_REQUEST);
-        }
 
-        Store store = new Store();
+        var store = new Store();
         store.setEmail(email);
         store.setName(name);
         store.setPassword(passwordEncoder.encode(password));
@@ -39,13 +39,12 @@ public class AuthService {
         return storeRepository.save(store);
     }
 
-    @Transactional
+    @Transactional(isolation = Isolation.REPEATABLE_READ)
     public Courier registerCourier(String email, String name, String password) {
-        if (courierRepository.findByEmail(email).isPresent()) {
+        if (courierRepository.findByEmail(email).isPresent())
             throw new ApiException("Email already registered as a courier", HttpStatus.BAD_REQUEST);
-        }
 
-        Courier courier = new Courier();
+        var courier = new Courier();
         courier.setEmail(email);
         courier.setName(name);
         courier.setPassword(passwordEncoder.encode(password));

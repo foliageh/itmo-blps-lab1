@@ -27,12 +27,12 @@ public class SecurityService {
 
         if (userPrincipal.getRole() == UserRole.STORE) {
             return storeRepository.findByEmail(userPrincipal.getUsername())
-                    .orElseThrow(() -> new ApiException("Store not found", HttpStatus.NOT_FOUND));
+                    .orElseThrow(() -> new ApiException("Store not found", HttpStatus.BAD_REQUEST));
         } else if (userPrincipal.getRole() == UserRole.COURIER) {
             return courierRepository.findByEmail(userPrincipal.getUsername())
-                    .orElseThrow(() -> new ApiException("Courier not found", HttpStatus.NOT_FOUND));
+                    .orElseThrow(() -> new ApiException("Courier not found", HttpStatus.BAD_REQUEST));
         }
 
-        throw new ApiException("User not found", HttpStatus.NOT_FOUND);
+        throw new ApiException("User not found", HttpStatus.BAD_REQUEST);
     }
 }

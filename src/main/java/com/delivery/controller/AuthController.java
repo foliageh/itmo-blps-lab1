@@ -3,15 +3,16 @@ package com.delivery.controller;
 import com.delivery.dto.request.LoginRequest;
 import com.delivery.dto.request.RegisterRequest;
 import com.delivery.dto.response.AuthResponse;
-import com.delivery.model.Courier;
-import com.delivery.model.Store;
 import com.delivery.security.UserRole;
 import com.delivery.service.AuthService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
 
@@ -25,7 +26,7 @@ public class AuthController {
     @Operation(summary = "Register a new store")
     @PostMapping("/store/register")
     public Map<String, String> registerStore(@Valid @RequestBody RegisterRequest request) {
-        Store store = authService.registerStore(
+        var store = authService.registerStore(
             request.getEmail(),
             request.getName(),
             request.getPassword()
@@ -36,7 +37,7 @@ public class AuthController {
     @Operation(summary = "Register a new courier")
     @PostMapping("/courier/register")
     public Map<String, String> registerCourier(@Valid @RequestBody RegisterRequest request) {
-        Courier courier = authService.registerCourier(
+        var courier = authService.registerCourier(
             request.getEmail(),
             request.getName(),
             request.getPassword()

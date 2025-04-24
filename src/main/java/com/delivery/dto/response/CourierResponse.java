@@ -17,11 +17,11 @@ public class CourierResponse {
 
     public static CourierResponse fromCourier(Courier courier) {
         return new CourierResponse(
-            courier.getId(),
-            courier.getEmail(),
-            courier.getName(),
-            courier.getStatus(),
-            courier.getLastAssignment()
+                courier.getId(),
+                courier.getEmail(),
+                courier.getName(),
+                courier.getStatus(),
+                courier.getLastAssignment()
         );
     }
 }
