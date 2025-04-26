@@ -2,6 +2,5 @@
 target/
 
 *.txt
-*.docx
 
 transaction-logs/
