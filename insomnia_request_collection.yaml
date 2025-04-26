@@ -9,7 +9,7 @@ collection:
     meta:
       id: fld_e8daf98e16674439b9f7bdef85e33d42
       created: 1745491061385
-      modified: 1745491859083
+      modified: 1745677669953
       sortKey: -1745491061385
       description: Courier operations for managing deliveries
     children:
@@ -18,15 +18,11 @@ collection:
         meta:
           id: req_6e01467797604ee188dd1ebde55a161a
           created: 1745491061399
-          modified: 1745660407495
+          modified: 1745677688462
           isPrivate: false
           description: Complete the delivery of a specific order
           sortKey: -1745491061399
         method: POST
-        authentication:
-          type: bearer
-          token: "{% response 'body', 'req_75f0c2d749ed43a5a3145e0f906cf5ef',
-            'b64::JC50b2tlbg==::46b', 'always', 60 %}"
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -40,16 +36,12 @@ collection:
         meta:
           id: req_7794f9aa356e40a0a903a7596d2da3b1
           created: 1745491061407
-          modified: 1745660404256
+          modified: 1745677685598
           isPrivate: false
           description: Update the authenticated courier's status to ready for accepting
             deliveries
           sortKey: -1745491061407
         method: GET
-        authentication:
-          type: bearer
-          token: "{% response 'body', 'req_75f0c2d749ed43a5a3145e0f906cf5ef',
-            'b64::JC50b2tlbg==::46b', 'always', 60 %}"
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -63,15 +55,11 @@ collection:
         meta:
           id: req_3fd65a58a82f42b3ba32473ca97afa55
           created: 1745491061408
-          modified: 1745660388598
+          modified: 1745677678024
           isPrivate: false
           description: Retrieve the authenticated courier's profile information
           sortKey: -1745491061510
         method: GET
-        authentication:
-          type: bearer
-          token: "{% response 'body', 'req_75f0c2d749ed43a5a3145e0f906cf5ef',
-            'b64::JC50b2tlbg==::46b', 'always', 60 %}"
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -85,7 +73,7 @@ collection:
         meta:
           id: req_9f5c856679f540e69d0a0234f8459bc2
           created: 1745491061409
-          modified: 1745660399202
+          modified: 1745677682483
           isPrivate: false
           description: Retrieve orders assigned to the authenticated courier
           sortKey: -1745491061409
@@ -97,10 +85,6 @@ collection:
           - name: pageSize
             disabled: true
             value: "20"
-        authentication:
-          type: bearer
-          token: "{% response 'body', 'req_75f0c2d749ed43a5a3145e0f906cf5ef',
-            'b64::JC50b2tlbg==::46b', 'always', 60 %}"
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -114,16 +98,12 @@ collection:
         meta:
           id: req_44b63f736e5548cf92251dee5c41d7c8
           created: 1745491061410
-          modified: 1745660395262
+          modified: 1745677680175
           isPrivate: false
           description: Retrieve a specific order assigned to the authenticated courier by
             its ID
           sortKey: -1745491061410
         method: GET
-        authentication:
-          type: bearer
-          token: "{% response 'body', 'req_75f0c2d749ed43a5a3145e0f906cf5ef',
-            'b64::JC50b2tlbg==::46b', 'always', 60 %}"
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -132,6 +112,10 @@ collection:
             send: true
             store: true
           rebuildPath: true
+    authentication:
+      type: bearer
+      token: "{% response 'body', 'req_75f0c2d749ed43a5a3145e0f906cf5ef',
+        'b64::JC50b2tlbg==::46b', 'always', 60 %}"
     environment:
       orderId: 1
     environmentPropertyOrder:
@@ -141,7 +125,7 @@ collection:
     meta:
       id: fld_2cbc4a3aeef341bb94b982e2f4eabf42
       created: 1745491061392
-      modified: 1745491850650
+      modified: 1745677627070
       sortKey: -1745491061392
       description: Store operations for managing orders
     children:
@@ -150,14 +134,10 @@ collection:
         meta:
           id: req_a03e65bcd4a54a7bae0918d6d3bc3d7e
           created: 1745491061395
-          modified: 1745491753097
+          modified: 1745677652134
           isPrivate: false
           sortKey: -1745491061400.5
         method: POST
-        authentication:
-          type: bearer
-          token: "{% response 'body', 'req_5a0b2ba3886f43e08d1751f62e646463',
-            'b64::JC50b2tlbg==::46b', 'always', 60 %}"
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -171,15 +151,11 @@ collection:
         meta:
           id: req_7f73452749f14d8d9522b44eacb105a1
           created: 1745491061396
-          modified: 1745491513344
+          modified: 1745677654239
           isPrivate: false
           description: Cancel a specific order that hasn't been collected yet
           sortKey: -1745491061396
         method: POST
-        authentication:
-          type: bearer
-          token: "{% response 'body', 'req_5a0b2ba3886f43e08d1751f62e646463',
-            'b64::JC50b2tlbg==::46b', 'always', 60 %}"
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -193,15 +169,11 @@ collection:
         meta:
           id: req_7296e412e1d64cd1b583f5700bfbc21c
           created: 1745491061404
-          modified: 1745491747381
+          modified: 1745677638978
           isPrivate: false
           description: Retrieve the authenticated store's profile information
           sortKey: -1745491061506
         method: GET
-        authentication:
-          type: bearer
-          token: "{% response 'body', 'req_5a0b2ba3886f43e08d1751f62e646463',
-            'b64::JC50b2tlbg==::46b', 'always', 60 %}"
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -210,12 +182,12 @@ collection:
             send: true
             store: true
           rebuildPath: true
-      - url: "{{ _.base_url }}/api/store/orders"
+      - url: "{{ _.base_url }}/api/store/orders?pageNumber=1"
         name: Get store's orders
         meta:
           id: req_f3fd95b45458454ca5e94b6eb8a62d27
           created: 1745491061405
-          modified: 1745491507032
+          modified: 1745677649786
           isPrivate: false
           description: Retrieve orders associated with the authenticated store
           sortKey: -1745491061405
@@ -227,10 +199,6 @@ collection:
           - name: pageSize
             disabled: true
             value: "20"
-        authentication:
-          type: bearer
-          token: "{% response 'body', 'req_5a0b2ba3886f43e08d1751f62e646463',
-            'b64::JC50b2tlbg==::46b', 'always', 60 %}"
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -244,16 +212,11 @@ collection:
         meta:
           id: req_8fc583f9528448c08b8ba8c54072f9e0
           created: 1745491061406
-          modified: 1745491825809
+          modified: 1745677647041
           isPrivate: false
           description: Retrieve a specific order associated with the store by its ID
           sortKey: -1745491061406
         method: GET
-        authentication:
-          type: bearer
-          token: "{% response 'body', 'req_5a0b2ba3886f43e08d1751f62e646463',
-            'b64::JC50b2tlbg==::46b', 'always', 60 %}"
-          disabled: false
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -262,6 +225,10 @@ collection:
             send: true
             store: true
           rebuildPath: true
+    authentication:
+      type: bearer
+      token: "{% response 'body', 'req_5a0b2ba3886f43e08d1751f62e646463',
+        'b64::JC50b2tlbg==::46b', 'always', 60 %}"
     environment:
       orderId: 1
     environmentPropertyOrder:
@@ -271,7 +238,7 @@ collection:
     meta:
       id: fld_3292c32b31e049a28d780acb3d6f7c09
       created: 1745491061393
-      modified: 1745491061393
+      modified: 1745677601998
       sortKey: -1745491061393
       description: Authentication endpoints for stores and couriers
     children:
@@ -280,7 +247,7 @@ collection:
         meta:
           id: req_38abf24d9dc84567a836cf988173f29a
           created: 1745491061400
-          modified: 1745491681887
+          modified: 1745677589062
           isPrivate: false
           sortKey: -1745491061503
         method: POST
@@ -296,9 +263,6 @@ collection:
           - name: Content-Type
             disabled: false
             value: application/json
-        authentication:
-          type: bearer
-          disabled: true
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -312,7 +276,7 @@ collection:
         meta:
           id: req_5a0b2ba3886f43e08d1751f62e646463
           created: 1745491061401
-          modified: 1745491717250
+          modified: 1745677592302
           isPrivate: false
           sortKey: -1745491061478
         method: POST
@@ -327,9 +291,6 @@ collection:
           - name: Content-Type
             disabled: false
             value: application/json
-        authentication:
-          type: bearer
-          disabled: true
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -343,7 +304,7 @@ collection:
         meta:
           id: req_a6dc35cf5371467bbaaf15e720ade589
           created: 1745491061402
-          modified: 1745660737367
+          modified: 1745677594608
           isPrivate: false
           sortKey: -1745491061453
         method: POST
@@ -359,9 +320,6 @@ collection:
           - name: Content-Type
             disabled: false
             value: application/json
-        authentication:
-          type: bearer
-          disabled: true
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -375,7 +333,7 @@ collection:
         meta:
           id: req_75f0c2d749ed43a5a3145e0f906cf5ef
           created: 1745491061403
-          modified: 1745660688743
+          modified: 1745677597251
           isPrivate: false
           sortKey: -1745491061403
         method: POST
@@ -390,9 +348,6 @@ collection:
           - name: Content-Type
             disabled: false
             value: application/json
-        authentication:
-          type: bearer
-          disabled: true
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -401,11 +356,13 @@ collection:
             send: true
             store: true
           rebuildPath: true
+    authentication:
+      type: none
   - name: Customer
     meta:
       id: fld_cd51216c0c0c4d799cd6ee5430f1cd53
       created: 1745491061394
-      modified: 1745491061394
+      modified: 1745677605652
       sortKey: -1745491061394
       description: Customer operations for creating orders
     children:
@@ -414,7 +371,7 @@ collection:
         meta:
           id: req_e2c9c111b1ac4331b544c69db71c5393
           created: 1745491061398
-          modified: 1745491738659
+          modified: 1745676246195
           isPrivate: false
           sortKey: -1745491061398
         method: POST
@@ -445,6 +402,8 @@ collection:
             send: true
             store: true
           rebuildPath: true
+    authentication:
+      type: none
 cookieJar:
   name: Default Jar
   meta:
