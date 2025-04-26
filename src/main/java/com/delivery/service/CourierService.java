@@ -13,6 +13,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -56,6 +58,7 @@ public class CourierService {
         return orderRepository.save(order);
     }
 
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public Courier makeCourierReady() {
         var courier = (Courier) securityService.getCurrentUser(UserRole.COURIER);
         if (courier.getStatus() == Courier.CourierStatus.BUSY)

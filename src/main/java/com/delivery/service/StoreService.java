@@ -12,6 +12,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
@@ -36,6 +38,7 @@ public class StoreService {
         return orderRepository.findByStore(store, PageRequest.of(pageNumber, pageSize));
     }
 
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public Order collectOrder(Long orderId) {
         var store = (Store) securityService.getCurrentUser(UserRole.STORE);
         var order = getOrderWithStoreAccess(orderId, store);
