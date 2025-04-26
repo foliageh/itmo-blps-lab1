@@ -18,14 +18,15 @@ collection:
         meta:
           id: req_6e01467797604ee188dd1ebde55a161a
           created: 1745491061399
-          modified: 1745491061399
+          modified: 1745660407495
           isPrivate: false
           description: Complete the delivery of a specific order
           sortKey: -1745491061399
         method: POST
         authentication:
           type: bearer
-          token: "{{ _.bearerToken }}"
+          token: "{% response 'body', 'req_75f0c2d749ed43a5a3145e0f906cf5ef',
+            'b64::JC50b2tlbg==::46b', 'always', 60 %}"
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -39,7 +40,7 @@ collection:
         meta:
           id: req_7794f9aa356e40a0a903a7596d2da3b1
           created: 1745491061407
-          modified: 1745491061407
+          modified: 1745660404256
           isPrivate: false
           description: Update the authenticated courier's status to ready for accepting
             deliveries
@@ -47,7 +48,8 @@ collection:
         method: GET
         authentication:
           type: bearer
-          token: "{{ _.bearerToken }}"
+          token: "{% response 'body', 'req_75f0c2d749ed43a5a3145e0f906cf5ef',
+            'b64::JC50b2tlbg==::46b', 'always', 60 %}"
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -61,14 +63,15 @@ collection:
         meta:
           id: req_3fd65a58a82f42b3ba32473ca97afa55
           created: 1745491061408
-          modified: 1745491756911
+          modified: 1745660388598
           isPrivate: false
           description: Retrieve the authenticated courier's profile information
           sortKey: -1745491061510
         method: GET
         authentication:
           type: bearer
-          token: "{{ _.bearerToken }}"
+          token: "{% response 'body', 'req_75f0c2d749ed43a5a3145e0f906cf5ef',
+            'b64::JC50b2tlbg==::46b', 'always', 60 %}"
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -82,7 +85,7 @@ collection:
         meta:
           id: req_9f5c856679f540e69d0a0234f8459bc2
           created: 1745491061409
-          modified: 1745491061409
+          modified: 1745660399202
           isPrivate: false
           description: Retrieve orders assigned to the authenticated courier
           sortKey: -1745491061409
@@ -96,7 +99,8 @@ collection:
             value: "20"
         authentication:
           type: bearer
-          token: "{{ _.bearerToken }}"
+          token: "{% response 'body', 'req_75f0c2d749ed43a5a3145e0f906cf5ef',
+            'b64::JC50b2tlbg==::46b', 'always', 60 %}"
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -110,7 +114,7 @@ collection:
         meta:
           id: req_44b63f736e5548cf92251dee5c41d7c8
           created: 1745491061410
-          modified: 1745491061410
+          modified: 1745660395262
           isPrivate: false
           description: Retrieve a specific order assigned to the authenticated courier by
             its ID
@@ -118,7 +122,8 @@ collection:
         method: GET
         authentication:
           type: bearer
-          token: "{{ _.bearerToken }}"
+          token: "{% response 'body', 'req_75f0c2d749ed43a5a3145e0f906cf5ef',
+            'b64::JC50b2tlbg==::46b', 'always', 60 %}"
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -338,7 +343,7 @@ collection:
         meta:
           id: req_a6dc35cf5371467bbaaf15e720ade589
           created: 1745491061402
-          modified: 1745491710262
+          modified: 1745660737367
           isPrivate: false
           sortKey: -1745491061453
         method: POST
@@ -346,9 +351,9 @@ collection:
           mimeType: application/json
           text: |-
             {
-            	"email": "courier123@a.a",
             	"name": "Ashot Guy",
-            	"password": "somepassword"
+            	"email": "courier@a.a",
+            	"password": "123456"
             }
         headers:
           - name: Content-Type
@@ -370,7 +375,7 @@ collection:
         meta:
           id: req_75f0c2d749ed43a5a3145e0f906cf5ef
           created: 1745491061403
-          modified: 1745491721786
+          modified: 1745660688743
           isPrivate: false
           sortKey: -1745491061403
         method: POST
