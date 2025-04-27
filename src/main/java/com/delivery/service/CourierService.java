@@ -13,7 +13,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
@@ -58,7 +57,7 @@ public class CourierService {
         return orderRepository.save(order);
     }
 
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    @Transactional
     public Courier makeCourierReady() {
         var courier = (Courier) securityService.getCurrentUser(UserRole.COURIER);
         if (courier.getStatus() == Courier.CourierStatus.BUSY)
@@ -73,6 +72,7 @@ public class CourierService {
     }
 
     @Async
+    @Transactional
     public void tryAssignOrderToCourier(Courier courier) {
         if (courier.getStatus() != Courier.CourierStatus.READY)
             return;
@@ -89,22 +89,6 @@ public class CourierService {
         orderToAssign.setCourier(courier);
         orderToAssign.setStatus(Order.OrderStatus.IN_DELIVERY);
         orderRepository.save(orderToAssign);
-    }
-
-    @Async
-    public void tryAssignOrderToCouriers(Order order) {
-        Optional<Courier> courier = courierRepository.findFirstByStatusOrderByLastAssignmentAsc(Courier.CourierStatus.READY);
-        if (courier.isEmpty())
-            return;
-
-        var availableCourier = courier.get();
-        availableCourier.setStatus(Courier.CourierStatus.BUSY);
-        availableCourier.setLastAssignment(LocalDateTime.now());
-        courierRepository.save(availableCourier);
-
-        order.setCourier(availableCourier);
-        order.setStatus(Order.OrderStatus.IN_DELIVERY);
-        orderRepository.save(order);
     }
 
     private Order getOrderWithCourierAccess(Long orderId, Courier courier) {
