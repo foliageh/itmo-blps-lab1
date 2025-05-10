@@ -1,24 +1,24 @@
 type: collection.insomnia.rest/5.0
-name: Delivery Service API 0.2
+name: Delivery Service API Lab2 0.1
 meta:
-  id: wrk_8251e7bdc7ca439290cf6c71f7f3e09c
-  created: 1745491039601
-  modified: 1745491039601
+  id: wrk_ffc45d2ecd5f49ef8ea46b9a161266df
+  created: 1745667587893
+  modified: 1745678278623
 collection:
   - name: Courier
     meta:
-      id: fld_e8daf98e16674439b9f7bdef85e33d42
-      created: 1745491061385
-      modified: 1745677669953
+      id: fld_c204c2492fab48f298b9c7dbebddc4f9
+      created: 1745667587901
+      modified: 1745669933501
       sortKey: -1745491061385
       description: Courier operations for managing deliveries
     children:
       - url: "{{ _.base_url }}/api/courier/orders/{{ _.orderId }}/deliver"
         name: Mark order as delivered
         meta:
-          id: req_6e01467797604ee188dd1ebde55a161a
-          created: 1745491061399
-          modified: 1745677688462
+          id: req_33e55eeaae0e4a88b413d1c195dcc866
+          created: 1745667587902
+          modified: 1745669947325
           isPrivate: false
           description: Complete the delivery of a specific order
           sortKey: -1745491061399
@@ -34,9 +34,9 @@ collection:
       - url: "{{ _.base_url }}/api/courier/ready"
         name: Set courier status to ready
         meta:
-          id: req_7794f9aa356e40a0a903a7596d2da3b1
-          created: 1745491061407
-          modified: 1745677685598
+          id: req_19ce58eb9d3b4db3bb39f30b12aef7b0
+          created: 1745667587903
+          modified: 1745669945293
           isPrivate: false
           description: Update the authenticated courier's status to ready for accepting
             deliveries
@@ -53,9 +53,9 @@ collection:
       - url: "{{ _.base_url }}/api/courier/profile"
         name: Get courier's profile
         meta:
-          id: req_3fd65a58a82f42b3ba32473ca97afa55
-          created: 1745491061408
-          modified: 1745677678024
+          id: req_b1d5dcfddcce43939def0b0ba91d0ec8
+          created: 1745667587904
+          modified: 1745669938517
           isPrivate: false
           description: Retrieve the authenticated courier's profile information
           sortKey: -1745491061510
@@ -71,9 +71,9 @@ collection:
       - url: "{{ _.base_url }}/api/courier/orders"
         name: Get courier's orders
         meta:
-          id: req_9f5c856679f540e69d0a0234f8459bc2
-          created: 1745491061409
-          modified: 1745677682483
+          id: req_0304096f90484586a1013e5db273b4c0
+          created: 1745667587905
+          modified: 1745669943274
           isPrivate: false
           description: Retrieve orders assigned to the authenticated courier
           sortKey: -1745491061409
@@ -96,9 +96,9 @@ collection:
       - url: "{{ _.base_url }}/api/courier/orders/{{ _.orderId }}"
         name: Get courier's order by ID
         meta:
-          id: req_44b63f736e5548cf92251dee5c41d7c8
-          created: 1745491061410
-          modified: 1745677680175
+          id: req_1302ea3b016841f29348b847641a5431
+          created: 1745667587906
+          modified: 1745669940329
           isPrivate: false
           description: Retrieve a specific order assigned to the authenticated courier by
             its ID
@@ -113,9 +113,11 @@ collection:
             store: true
           rebuildPath: true
     authentication:
-      type: bearer
-      token: "{% response 'body', 'req_75f0c2d749ed43a5a3145e0f906cf5ef',
-        'b64::JC50b2tlbg==::46b', 'always', 60 %}"
+      type: basic
+      useISO88591: false
+      disabled: false
+      username: courier@a.a
+      password: "123456"
     environment:
       orderId: 1
     environmentPropertyOrder:
@@ -123,18 +125,18 @@ collection:
         - orderId
   - name: Store
     meta:
-      id: fld_2cbc4a3aeef341bb94b982e2f4eabf42
-      created: 1745491061392
-      modified: 1745677627070
+      id: fld_b3dcf36fe7054573bf5e2325f3a36aec
+      created: 1745667587907
+      modified: 1745669901994
       sortKey: -1745491061392
       description: Store operations for managing orders
     children:
       - url: "{{ _.base_url }}/api/store/orders/{{ _.orderId }}/collect"
         name: Mark order as collected
         meta:
-          id: req_a03e65bcd4a54a7bae0918d6d3bc3d7e
-          created: 1745491061395
-          modified: 1745677652134
+          id: req_685a4472438c4dffa3fbc67fd3a1372f
+          created: 1745667587909
+          modified: 1745669917053
           isPrivate: false
           sortKey: -1745491061400.5
         method: POST
@@ -149,9 +151,9 @@ collection:
       - url: "{{ _.base_url }}/api/store/orders/{{ _.orderId }}/cancel"
         name: Cancel an order
         meta:
-          id: req_7f73452749f14d8d9522b44eacb105a1
-          created: 1745491061396
-          modified: 1745677654239
+          id: req_37199e36b390499ebb4418bea585bd27
+          created: 1745667587910
+          modified: 1745669919721
           isPrivate: false
           description: Cancel a specific order that hasn't been collected yet
           sortKey: -1745491061396
@@ -167,9 +169,9 @@ collection:
       - url: "{{ _.base_url }}/api/store/profile"
         name: Get store's profile
         meta:
-          id: req_7296e412e1d64cd1b583f5700bfbc21c
-          created: 1745491061404
-          modified: 1745677638978
+          id: req_d6aaa4273fcb46aa8022ee824ef51ff4
+          created: 1745667587911
+          modified: 1745669907190
           isPrivate: false
           description: Retrieve the authenticated store's profile information
           sortKey: -1745491061506
@@ -182,12 +184,12 @@ collection:
             send: true
             store: true
           rebuildPath: true
-      - url: "{{ _.base_url }}/api/store/orders?pageNumber=1"
+      - url: "{{ _.base_url }}/api/store/orders"
         name: Get store's orders
         meta:
-          id: req_f3fd95b45458454ca5e94b6eb8a62d27
-          created: 1745491061405
-          modified: 1745677649786
+          id: req_ab0b06dcfcae48709c0985b62c44abcb
+          created: 1745667587912
+          modified: 1745669914438
           isPrivate: false
           description: Retrieve orders associated with the authenticated store
           sortKey: -1745491061405
@@ -210,9 +212,9 @@ collection:
       - url: "{{ _.base_url }}/api/store/orders/{{ _.orderId }}"
         name: Get store's order by ID
         meta:
-          id: req_8fc583f9528448c08b8ba8c54072f9e0
-          created: 1745491061406
-          modified: 1745677647041
+          id: req_4c2489e9042a4c2cab265994a7f0ddc8
+          created: 1745667587913
+          modified: 1745669910119
           isPrivate: false
           description: Retrieve a specific order associated with the store by its ID
           sortKey: -1745491061406
@@ -226,9 +228,11 @@ collection:
             store: true
           rebuildPath: true
     authentication:
-      type: bearer
-      token: "{% response 'body', 'req_5a0b2ba3886f43e08d1751f62e646463',
-        'b64::JC50b2tlbg==::46b', 'always', 60 %}"
+      type: basic
+      useISO88591: false
+      disabled: false
+      username: store@a.a
+      password: "123456"
     environment:
       orderId: 1
     environmentPropertyOrder:
@@ -236,18 +240,18 @@ collection:
         - orderId
   - name: Authentication
     meta:
-      id: fld_3292c32b31e049a28d780acb3d6f7c09
-      created: 1745491061393
-      modified: 1745677601998
+      id: fld_9a7271099b904b0d92eaddaf862ed4c0
+      created: 1745667587914
+      modified: 1745678223860
       sortKey: -1745491061393
       description: Authentication endpoints for stores and couriers
     children:
       - url: "{{ _.base_url }}/api/auth/store/register"
         name: Register a new store
         meta:
-          id: req_38abf24d9dc84567a836cf988173f29a
-          created: 1745491061400
-          modified: 1745677589062
+          id: req_8cadcb0d77c64ba08348360eb359d26e
+          created: 1745667587915
+          modified: 1745678228170
           isPrivate: false
           sortKey: -1745491061503
         method: POST
@@ -274,9 +278,9 @@ collection:
       - url: "{{ _.base_url }}/api/auth/store/login"
         name: Login as a store
         meta:
-          id: req_5a0b2ba3886f43e08d1751f62e646463
-          created: 1745491061401
-          modified: 1745677592302
+          id: req_2d4f083a6f434f32ae55579e04b87da7
+          created: 1745667587916
+          modified: 1745678229911
           isPrivate: false
           sortKey: -1745491061478
         method: POST
@@ -302,9 +306,9 @@ collection:
       - url: "{{ _.base_url }}/api/auth/courier/register"
         name: Register a new courier
         meta:
-          id: req_a6dc35cf5371467bbaaf15e720ade589
-          created: 1745491061402
-          modified: 1745677594608
+          id: req_e5bde30c78744c76ae1a39fadb25b4b9
+          created: 1745667587917
+          modified: 1745678231491
           isPrivate: false
           sortKey: -1745491061453
         method: POST
@@ -331,9 +335,9 @@ collection:
       - url: "{{ _.base_url }}/api/auth/courier/login"
         name: Login as a courier
         meta:
-          id: req_75f0c2d749ed43a5a3145e0f906cf5ef
-          created: 1745491061403
-          modified: 1745677597251
+          id: req_6e529fd89d0b4a54a715a0fb8af5bf94
+          created: 1745667587918
+          modified: 1745678233361
           isPrivate: false
           sortKey: -1745491061403
         method: POST
@@ -360,18 +364,18 @@ collection:
       type: none
   - name: Customer
     meta:
-      id: fld_cd51216c0c0c4d799cd6ee5430f1cd53
-      created: 1745491061394
-      modified: 1745677605652
+      id: fld_96aaeed9252d436bb279226b0f840693
+      created: 1745667587919
+      modified: 1745678216165
       sortKey: -1745491061394
       description: Customer operations for creating orders
     children:
       - url: "{{ _.base_url }}/api/customer/orders"
         name: Create a new order
         meta:
-          id: req_e2c9c111b1ac4331b544c69db71c5393
-          created: 1745491061398
-          modified: 1745676246195
+          id: req_61eb86a059184b628cd2794f9fd625e7
+          created: 1745667587920
+          modified: 1745678220741
           isPrivate: false
           sortKey: -1745491061398
         method: POST
@@ -391,9 +395,6 @@ collection:
           - name: Content-Type
             disabled: false
             value: application/json
-        authentication:
-          type: bearer
-          disabled: true
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -407,24 +408,24 @@ collection:
 cookieJar:
   name: Default Jar
   meta:
-    id: jar_ed929cb4a5893aa3ea3064e6163261d4011ecff2
-    created: 1745491039608
-    modified: 1745491039608
+    id: jar_10a6d2f088934b31aef5d0717cec44f3
+    created: 1745667587899
+    modified: 1745667587899
 environments:
   name: Base Environment
   meta:
-    id: env_ed929cb4a5893aa3ea3064e6163261d4011ecff2
-    created: 1745491039605
-    modified: 1745491061382
+    id: env_433c8a72ffb840cdb45c48f49b58f556
+    created: 1745667587895
+    modified: 1745667587895
     isPrivate: false
   data:
     base_url: "{{ _.scheme }}://{{ _.host }}{{ _.base_path }}"
   subEnvironments:
     - name: OpenAPI env localhost:8080
       meta:
-        id: env_5a112c5ab1e3458a9bd9f2e928bca64f
-        created: 1745491061383
-        modified: 1745491137789
+        id: env_741ed9002b6e456aabf00c2ebd3acf48
+        created: 1745667587897
+        modified: 1745667587897
         isPrivate: false
         sortKey: 1745491061383
       data:

@@ -46,8 +46,6 @@ public class StoreService {
         order.setStatus(Order.OrderStatus.COLLECTED);
         order = orderRepository.save(order);
 
-        courierService.tryAssignOrderToCouriers(order);
-
         return order;
     }
 

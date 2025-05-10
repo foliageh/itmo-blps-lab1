@@ -13,11 +13,13 @@ public class UserPrincipal implements UserDetails {
     private final String username;
     private final String password;
     private final UserRole role;
+    private final Object user;
 
-    public UserPrincipal(String username, String password, UserRole role) {
+    public UserPrincipal(String username, String password, UserRole role, Object user) {
         this.username = username;
         this.password = password;
         this.role = role;
+        this.user = user;
     }
 
     @Override

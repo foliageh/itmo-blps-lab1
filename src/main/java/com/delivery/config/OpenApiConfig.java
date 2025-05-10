@@ -21,11 +21,10 @@ public class OpenApiConfig {
                     new SecurityScheme()
                         .name(securitySchemeName)
                         .type(SecurityScheme.Type.HTTP)
-                        .scheme("bearer")
-                        .bearerFormat("JWT")))
+                        .scheme("basic")))
             .info(new Info()
-                .title("Delivery Service API")
+                .title("Delivery Service API Lab2")
                 .description("API for managing deliveries by stores and couriers")
-                .version("0.2"));
+                .version("0.1"));
     }
 }

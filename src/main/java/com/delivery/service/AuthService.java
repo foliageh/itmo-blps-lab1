@@ -5,16 +5,12 @@ import com.delivery.model.Courier;
 import com.delivery.model.Store;
 import com.delivery.repository.CourierRepository;
 import com.delivery.repository.StoreRepository;
-import com.delivery.security.JwtTokenProvider;
 import com.delivery.security.UserRole;
+import com.delivery.security.XmlAuthWriter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
@@ -23,40 +19,52 @@ public class AuthService {
     private final StoreRepository storeRepository;
     private final CourierRepository courierRepository;
     private final PasswordEncoder passwordEncoder;
-    private final JwtTokenProvider tokenProvider;
-    private final AuthenticationManager authenticationManager;
+    private final XmlAuthWriter xmlAuthWriter;
 
-    @Transactional(isolation = Isolation.REPEATABLE_READ)
+    @Transactional
     public Store registerStore(String email, String name, String password) {
-        if (storeRepository.findByEmail(email).isPresent())
-            throw new ApiException("Email already registered as a store", HttpStatus.BAD_REQUEST);
+        if (xmlAuthWriter.userExists(email)) {
+            throw new ApiException("Email already registered", HttpStatus.BAD_REQUEST);
+        }
+
+        String encodedPassword = passwordEncoder.encode(password);
 
         var store = new Store();
         store.setEmail(email);
         store.setName(name);
-        store.setPassword(passwordEncoder.encode(password));
+        store.setPassword(encodedPassword);
+        store = storeRepository.save(store);
 
-        return storeRepository.save(store);
+        xmlAuthWriter.addUser(
+                email,
+                encodedPassword,
+                UserRole.STORE
+        );
+
+        return store;
     }
 
-    @Transactional(isolation = Isolation.REPEATABLE_READ)
+    @Transactional
     public Courier registerCourier(String email, String name, String password) {
-        if (courierRepository.findByEmail(email).isPresent())
-            throw new ApiException("Email already registered as a courier", HttpStatus.BAD_REQUEST);
+        if (xmlAuthWriter.userExists(email)) {
+            throw new ApiException("Email already registered", HttpStatus.BAD_REQUEST);
+        }
+
+        String encodedPassword = passwordEncoder.encode(password);
 
         var courier = new Courier();
         courier.setEmail(email);
         courier.setName(name);
-        courier.setPassword(passwordEncoder.encode(password));
+        courier.setPassword(encodedPassword);
         courier.setStatus(Courier.CourierStatus.NOT_READY);
+        courier = courierRepository.save(courier);
 
-        return courierRepository.save(courier);
-    }
-
-    public String loginUser(String email, String password, UserRole role) {
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(email + " " + role.name(), password)
+        xmlAuthWriter.addUser(
+                email,
+                encodedPassword,
+                UserRole.COURIER
         );
-        return tokenProvider.generateToken(authentication, role);
+
+        return courier;
     }
 }

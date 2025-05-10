@@ -1,9 +1,6 @@
 package com.delivery.controller;
 
-import com.delivery.dto.request.LoginRequest;
 import com.delivery.dto.request.RegisterRequest;
-import com.delivery.dto.response.AuthResponse;
-import com.delivery.security.UserRole;
 import com.delivery.service.AuthService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -43,19 +40,5 @@ public class AuthController {
             request.getPassword()
         );
         return Map.of("result", "success");
-    }
-
-    @Operation(summary = "Login as a store")
-    @PostMapping("/store/login")
-    public AuthResponse loginStore(@Valid @RequestBody LoginRequest request) {
-        String jwt = authService.loginUser(request.getEmail(), request.getPassword(), UserRole.STORE);
-        return new AuthResponse(jwt);
-    }
-
-    @Operation(summary = "Login as a courier")
-    @PostMapping("/courier/login")
-    public AuthResponse loginCourier(@Valid @RequestBody LoginRequest request) {
-        String jwt = authService.loginUser(request.getEmail(), request.getPassword(), UserRole.COURIER);
-        return new AuthResponse(jwt);
     }
 }

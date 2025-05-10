@@ -13,7 +13,7 @@
     
     <groupId>com.delivery</groupId>
     <artifactId>delivery-service</artifactId>
-    <version>0.2</version>
+    <version>lab2-0.1</version>
     <name>Delivery Service</name>
     
     <properties>
@@ -33,6 +33,11 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>dev.snowdrop</groupId>
+            <artifactId>narayana-spring-boot-starter</artifactId>
+            <version>RELEASE</version>
         </dependency>
         
         <!-- Database -->

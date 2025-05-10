@@ -1,10 +1,10 @@
 package com.delivery.security;
 
-import com.delivery.exception.ApiException;
+import com.delivery.model.Courier;
+import com.delivery.model.Store;
 import com.delivery.repository.CourierRepository;
 import com.delivery.repository.StoreRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -15,24 +15,34 @@ import org.springframework.stereotype.Service;
 public class UserDetailsServiceImpl implements UserDetailsService {
     private final StoreRepository storeRepository;
     private final CourierRepository courierRepository;
+    private final XmlAuthLoader xmlAuthLoader;
 
     @Override
-    public UserDetails loadUserByUsername(String emailPlusRole) throws UsernameNotFoundException {
-        String email = emailPlusRole.substring(0, emailPlusRole.lastIndexOf(" "));
-        UserRole role = UserRole.valueOf(emailPlusRole.substring(emailPlusRole.lastIndexOf(" ") + 1));
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        XmlAuthLoader.XmlUserCredentials credentials = xmlAuthLoader.loadUserByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
-        switch (role) {
+        return switch (credentials.role()) {
             case STORE -> {
-                var store = storeRepository.findByEmail(email)
-                        .orElseThrow(() -> new ApiException("Store not found", HttpStatus.BAD_REQUEST));
-                return new UserPrincipal(store.getEmail(), store.getPassword(), UserRole.STORE);
+                Store store = storeRepository.findByEmail(email)
+                        .orElseThrow(() -> new UsernameNotFoundException("Store not found"));
+                yield new UserPrincipal(
+                        store.getEmail(),
+                        credentials.password(),
+                        UserRole.STORE,
+                        store
+                );
             }
             case COURIER -> {
-                var courier = courierRepository.findByEmail(email)
-                        .orElseThrow(() -> new ApiException("Courier not found", HttpStatus.BAD_REQUEST));
-                return new UserPrincipal(courier.getEmail(), courier.getPassword(), UserRole.COURIER);
+                Courier courier = courierRepository.findByEmail(email)
+                        .orElseThrow(() -> new UsernameNotFoundException("Courier not found"));
+                yield new UserPrincipal(
+                        courier.getEmail(),
+                        credentials.password(),
+                        UserRole.COURIER,
+                        courier
+                );
             }
-            default -> throw new ApiException("Invalid role", HttpStatus.BAD_REQUEST);
-        }
+        };
     }
 }
