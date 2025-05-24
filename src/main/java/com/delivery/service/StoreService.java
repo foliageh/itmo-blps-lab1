@@ -8,6 +8,7 @@ import com.delivery.repository.OrderRepository;
 import com.delivery.security.SecurityService;
 import com.delivery.security.UserRole;
 import com.delivery.service.jms.JmsService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -50,6 +51,7 @@ public class StoreService {
         return orderRepository.save(order);
     }
 
+    @Transactional
     public Order cancelOrder(Long orderId) {
         var store = (Store) securityService.getCurrentUser(UserRole.STORE);
         var order = getOrderWithStoreAccess(orderId, store);

@@ -11,6 +11,7 @@ import com.delivery.security.UserRole;
 import com.delivery.service.bitrix.BitrixService;
 import com.delivery.service.jms.JmsService;
 import jakarta.resource.ResourceException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Profile;
@@ -65,6 +66,7 @@ public class CourierService {
         return orderRepository.save(order);
     }
 
+    @Transactional
     public Courier makeCourierReady() {
         var courier = (Courier) securityService.getCurrentUser(UserRole.COURIER);
         if (courier.getStatus() == Courier.CourierStatus.BUSY)

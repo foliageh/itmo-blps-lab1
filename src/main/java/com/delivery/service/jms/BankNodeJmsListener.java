@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component @Profile("bank")
 @RequiredArgsConstructor
@@ -19,6 +20,7 @@ public class BankNodeJmsListener {
     private String refundResponseQueue;
 
     @JmsListener(destination = "${jms.queue.refund}")
+    @Transactional
     public void processRefundRequest(RefundMessage refundMessage) {
         log.info("Received refund request for order ID: {} and customer: {}",
                 refundMessage.getOrderId(), refundMessage.getCustomerEmail());

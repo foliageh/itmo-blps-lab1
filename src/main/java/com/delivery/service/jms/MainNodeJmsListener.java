@@ -23,6 +23,7 @@ public class MainNodeJmsListener {
     private final CourierRepository courierRepository;
 
     @JmsListener(destination = "${jms.queue.refund.response}")
+    @Transactional
     public void receiveRefundResponse(RefundMessage refundMessage) {
         log.info("Received refund response for order ID: {}, refund processed: {}", 
                 refundMessage.getOrderId(), refundMessage.isRefundProcessed());
