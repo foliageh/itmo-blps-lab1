@@ -3,11 +3,12 @@ package com.delivery;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
-@Deprecated
-public class DeliveryServiceApplication {
+@EnableScheduling
+public class MainNodeApplication {
     public static void main(String[] args) {
-        SpringApplication.run(DeliveryServiceApplication.class, args);
+        SpringApplication.run(MainNodeApplication.class, "--spring.profiles.active=main");
     }
 }
