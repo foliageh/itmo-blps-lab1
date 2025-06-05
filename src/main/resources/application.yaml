@@ -1,0 +1,50 @@
+# Web Application Configuration
+server.port: 8080
+spring.application.name: Delivery Service
+
+# Database Configuration
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/delivery_service
+    username: postgres
+    password: postgres
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+
+# Logging Configuration
+logging:
+  level:
+    org.springframework: INFO
+    org.camunda.bpm: INFO
+    com.delivery: DEBUG
+
+# Camunda Configuration
+camunda:
+  bpm:
+    job-execution:
+      enabled: true
+      deployment-aware: true
+    metrics:
+      enabled: false
+      db-reporter-activate: false
+    admin-user:
+      id: a
+      password: a
+      first-name: Admin
+      last-name: User
+    filter.create: All Tasks
+    authorization.enabled: true
+    auto-deployment-enabled: true
+    deployment-resource-pattern: classpath:bpmn/*.bpmn
+    history-level: full
+    database:
+      type: postgres
+      #schema-update: update  # не работает тупая camunda
+      jdbc-batch-processing: false
+      #table-prefix: camunda. # тоже всё не работает
+      #schema-name: camunda
+    generic-properties:
+      properties:
+        historyTimeToLive: P1D

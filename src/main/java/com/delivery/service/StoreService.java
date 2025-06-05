@@ -19,7 +19,6 @@ import java.time.LocalDateTime;
 @RequiredArgsConstructor
 public class StoreService {
     private final OrderRepository orderRepository;
-    private final CourierService courierService;
     private final SecurityService securityService;
 
     public Store getProfile() {
@@ -36,6 +35,7 @@ public class StoreService {
         return orderRepository.findByStore(store, PageRequest.of(pageNumber, pageSize));
     }
 
+    @Deprecated
     public Order collectOrder(Long orderId) {
         var store = (Store) securityService.getCurrentUser(UserRole.STORE);
         var order = getOrderWithStoreAccess(orderId, store);
@@ -49,6 +49,7 @@ public class StoreService {
         return order;
     }
 
+    @Deprecated
     public Order cancelOrder(Long orderId) {
         var store = (Store) securityService.getCurrentUser(UserRole.STORE);
         var order = getOrderWithStoreAccess(orderId, store);
@@ -66,7 +67,7 @@ public class StoreService {
     }
 
     @Async
-    protected void processRefund(Long orderId) {
+    public void processRefund(Long orderId) {
         var order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new ApiException("Order not found", HttpStatus.NOT_FOUND));
 

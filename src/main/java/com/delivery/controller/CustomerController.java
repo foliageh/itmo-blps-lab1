@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class CustomerController {
     private final OrderService orderService;
 
+    @Deprecated
     @Operation(summary = "Create a new order")
     @PostMapping("/orders")
     public OrderResponse createOrder(@Valid @RequestBody CreateOrderRequest request) {

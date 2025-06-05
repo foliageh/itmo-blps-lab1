@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0fdv95r" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.35.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.23.0">
+  <bpmn:process id="store-order-process" name="Store Order Process" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_OrderStart" name="Order Created">
+      <bpmn:extensionElements>
+        <camunda:formData>
+          <camunda:formField id="customerEmail" label="Customer Email" type="string" defaultValue="customer@a.a" />
+          <camunda:formField id="storeId" label="Store ID" type="string" defaultValue="store1" />
+          <camunda:formField id="itemId" label="Item ID" type="long" defaultValue="1" />
+        </camunda:formData>
+        <camunda:executionListener delegateExpression="${createOrderDelegate}" event="end" />
+      </bpmn:extensionElements>
+      <bpmn:outgoing>Flow_1txrq5g</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:userTask id="Activity_StoreProcessOrder" name="Store Process Order" camunda:assignee="${storeId}">
+      <bpmn:documentation>You need to process order ${orderId}.</bpmn:documentation>
+      <bpmn:extensionElements>
+        <camunda:formData>
+          <camunda:formField id="action" label="Action" type="enum" defaultValue="collect">
+            <camunda:value id="collect" name="Collect" />
+            <camunda:value id="cancel" name="Cancel" />
+          </camunda:formField>
+          <camunda:formField id="orderId" label="Order ID" type="long" defaultValue="${orderId}">
+            <camunda:properties />
+            <camunda:validation>
+              <camunda:constraint name="readonly" config="true" />
+            </camunda:validation>
+          </camunda:formField>
+        </camunda:formData>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1txrq5g</bpmn:incoming>
+      <bpmn:outgoing>Flow_0vle57u</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="Flow_1txrq5g" sourceRef="StartEvent_OrderStart" targetRef="Activity_StoreProcessOrder">
+      <bpmn:extensionElements />
+    </bpmn:sequenceFlow>
+    <bpmn:exclusiveGateway id="Gateway_OrderAction" name="Order Action?">
+      <bpmn:incoming>Flow_0vle57u</bpmn:incoming>
+      <bpmn:outgoing>Flow_Collect</bpmn:outgoing>
+      <bpmn:outgoing>Flow_Cancel</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_0vle57u" sourceRef="Activity_StoreProcessOrder" targetRef="Gateway_OrderAction" />
+    <bpmn:sequenceFlow id="Flow_Collect" name="Collect" sourceRef="Gateway_OrderAction" targetRef="Activity_CollectOrder">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${action == 'collect'}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_Cancel" name="Cancel" sourceRef="Gateway_OrderAction" targetRef="Activity_CancelOrder">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${action == 'cancel'}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:serviceTask id="Activity_CancelOrder" name="Cancel Order" camunda:delegateExpression="${cancelOrderDelegate}">
+      <bpmn:incoming>Flow_Cancel</bpmn:incoming>
+      <bpmn:outgoing>Flow_0mj2hla</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="Event_OrderCancelled" name="Order Cancelled">
+      <bpmn:incoming>Flow_0mj2hla</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_0mj2hla" sourceRef="Activity_CancelOrder" targetRef="Event_OrderCancelled" />
+    <bpmn:serviceTask id="Activity_CollectOrder" name="Collect Order" camunda:delegateExpression="${collectOrderDelegate}">
+      <bpmn:incoming>Flow_Collect</bpmn:incoming>
+      <bpmn:outgoing>Flow_0lkap36</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="Event_OrderCollected" name="Order Collected">
+      <bpmn:incoming>Flow_0lkap36</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_0lkap36" sourceRef="Activity_CollectOrder" targetRef="Event_OrderCollected" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="store-order-process">
+      <bpmndi:BPMNShape id="StartEvent_1_di" bpmnElement="StartEvent_OrderStart">
+        <dc:Bounds x="182" y="112" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="167" y="155" width="71" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0xgexd0_di" bpmnElement="Gateway_OrderAction" isMarkerVisible="true">
+        <dc:Bounds x="425" y="105" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="416" y="81" width="68" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0scxtbo_di" bpmnElement="Activity_CancelOrder">
+        <dc:Bounds x="550" y="190" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1ypimjp_di" bpmnElement="Event_OrderCancelled">
+        <dc:Bounds x="732" y="212" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="710" y="255" width="81" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0ehswis_di" bpmnElement="Activity_CollectOrder">
+        <dc:Bounds x="550" y="90" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1ptrudx_di" bpmnElement="Event_OrderCollected">
+        <dc:Bounds x="732" y="112" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="712" y="155" width="78" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_09zvfbl_di" bpmnElement="Activity_StoreProcessOrder">
+        <dc:Bounds x="290" y="90" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1txrq5g_di" bpmnElement="Flow_1txrq5g">
+        <di:waypoint x="218" y="130" />
+        <di:waypoint x="290" y="130" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0vle57u_di" bpmnElement="Flow_0vle57u">
+        <di:waypoint x="390" y="130" />
+        <di:waypoint x="425" y="130" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_178vjdq_di" bpmnElement="Flow_Collect">
+        <di:waypoint x="475" y="130" />
+        <di:waypoint x="550" y="130" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="495" y="112" width="35" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1cznil9_di" bpmnElement="Flow_Cancel">
+        <di:waypoint x="450" y="155" />
+        <di:waypoint x="450" y="230" />
+        <di:waypoint x="550" y="230" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="492" y="212" width="35" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0mj2hla_di" bpmnElement="Flow_0mj2hla">
+        <di:waypoint x="650" y="230" />
+        <di:waypoint x="732" y="230" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0lkap36_di" bpmnElement="Flow_0lkap36">
+        <di:waypoint x="650" y="130" />
+        <di:waypoint x="732" y="130" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

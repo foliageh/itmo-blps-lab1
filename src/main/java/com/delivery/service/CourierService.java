@@ -8,6 +8,8 @@ import com.delivery.repository.OrderRepository;
 import com.delivery.security.SecurityService;
 import com.delivery.security.UserRole;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.camunda.bpm.engine.RuntimeService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
@@ -16,14 +18,18 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class CourierService {
     private final CourierRepository courierRepository;
     private final OrderRepository orderRepository;
     private final SecurityService securityService;
+    private final RuntimeService camundaService;
 
     public Courier getProfile() {
         return (Courier) securityService.getCurrentUser(UserRole.COURIER);
@@ -39,6 +45,7 @@ public class CourierService {
         return orderRepository.findByCourier(courier, PageRequest.of(pageNumber, pageSize));
     }
 
+    @Deprecated
     public Order deliverOrder(Long orderId) {
         var courier = (Courier) securityService.getCurrentUser(UserRole.COURIER);
         if (courier.getStatus() != Courier.CourierStatus.BUSY)
@@ -57,7 +64,6 @@ public class CourierService {
         return orderRepository.save(order);
     }
 
-    @Transactional
     public Courier makeCourierReady() {
         var courier = (Courier) securityService.getCurrentUser(UserRole.COURIER);
         if (courier.getStatus() == Courier.CourierStatus.BUSY)
@@ -66,11 +72,25 @@ public class CourierService {
         courier.setStatus(Courier.CourierStatus.READY);
         courier = courierRepository.save(courier);
 
-        tryAssignOrderToCourier(courier);
+        startCourierOrderProcess(courier);
+        //tryAssignOrderToCourier(courier);
 
         return courier;
     }
 
+    @Async
+    protected void startCourierOrderProcess(Courier courier) {
+        Map<String, Object> variables = new HashMap<>();
+        variables.put("courierId", "courier"+courier.getId());
+        try {
+            var processInstance = camundaService.startProcessInstanceByKey("courier-order-process", variables);
+            log.info("Started courier process with ID {} for courier {}", processInstance.getId(), courier.getId());
+        } catch (Exception e) {
+            log.error("Failed to start courier process for courier {}: {}", courier.getId(), e.getMessage(), e);
+        }
+    }
+
+    @Deprecated
     @Async
     @Transactional
     public void tryAssignOrderToCourier(Courier courier) {

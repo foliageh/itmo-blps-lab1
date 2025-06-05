@@ -45,6 +45,7 @@ public class StoreController {
         return new PagedResponse<>(ordersPage, OrderResponse::new);
     }
 
+    @Deprecated
     @Operation(summary = "Mark order as collected")
     @PostMapping("/orders/{orderId}/collect")
     public OrderResponse collectOrder(@PathVariable Long orderId) {
@@ -52,6 +53,7 @@ public class StoreController {
         return new OrderResponse(order);
     }
 
+    @Deprecated
     @Operation(summary = "Cancel an order",
             description = "Cancel a specific order that hasn't been collected yet")
     @PostMapping("/orders/{orderId}/cancel")

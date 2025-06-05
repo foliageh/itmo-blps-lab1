@@ -53,6 +53,7 @@ public class CourierController {
         return new CourierResponse(courier);
     }
 
+    @Deprecated
     @Operation(summary = "Mark order as delivered", 
             description = "Complete the delivery of a specific order")
     @PostMapping("/orders/{orderId}/deliver")

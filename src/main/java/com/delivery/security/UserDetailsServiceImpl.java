@@ -1,7 +1,5 @@
 package com.delivery.security;
 
-import com.delivery.model.Courier;
-import com.delivery.model.Store;
 import com.delivery.repository.CourierRepository;
 import com.delivery.repository.StoreRepository;
 import lombok.RequiredArgsConstructor;
@@ -15,34 +13,27 @@ import org.springframework.stereotype.Service;
 public class UserDetailsServiceImpl implements UserDetailsService {
     private final StoreRepository storeRepository;
     private final CourierRepository courierRepository;
-    private final XmlAuthLoader xmlAuthLoader;
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        XmlAuthLoader.XmlUserCredentials credentials = xmlAuthLoader.loadUserByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        var store = storeRepository.findByEmail(email).orElse(null);
+        if (store != null)
+            return new UserPrincipal(
+                    store.getEmail(),
+                    store.getPassword(),
+                    UserRole.STORE,
+                    store
+            );
 
-        return switch (credentials.role()) {
-            case STORE -> {
-                Store store = storeRepository.findByEmail(email)
-                        .orElseThrow(() -> new UsernameNotFoundException("Store not found"));
-                yield new UserPrincipal(
-                        store.getEmail(),
-                        credentials.password(),
-                        UserRole.STORE,
-                        store
-                );
-            }
-            case COURIER -> {
-                Courier courier = courierRepository.findByEmail(email)
-                        .orElseThrow(() -> new UsernameNotFoundException("Courier not found"));
-                yield new UserPrincipal(
-                        courier.getEmail(),
-                        credentials.password(),
-                        UserRole.COURIER,
-                        courier
-                );
-            }
-        };
+        var courier = courierRepository.findByEmail(email).orElse(null);
+        if (courier != null)
+            return new UserPrincipal(
+                    courier.getEmail(),
+                    courier.getPassword(),
+                    UserRole.COURIER,
+                    courier
+            );
+
+        throw new UsernameNotFoundException("User not found");
     }
 }

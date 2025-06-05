@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
 public class OpenApiConfig {
     @Bean
     public OpenAPI customOpenAPI() {
-        final String securitySchemeName = "bearerAuth";
+        final String securitySchemeName = "basicAuth";
         
         return new OpenAPI()
             .addSecurityItem(new SecurityRequirement().addList(securitySchemeName))
@@ -23,7 +23,7 @@ public class OpenApiConfig {
                         .type(SecurityScheme.Type.HTTP)
                         .scheme("basic")))
             .info(new Info()
-                .title("Delivery Service API Lab2")
+                .title("Delivery Service API Lab4")
                 .description("API for managing deliveries by stores and couriers")
                 .version("0.1"));
     }
